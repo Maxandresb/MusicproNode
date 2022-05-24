@@ -19,6 +19,38 @@
     <div id ="cargando">
 
     </div>
+
+
+
+
+    <div>
+        <form>
+            <label for="">Id producto</label>
+            <input type="text" id="formIdProducto">
+
+            <label for="">Id sucural</label>
+            <input type="text" id="formIdSucursal">
+
+            <label for="">Stock Nuevo</label>
+            <input type="text" id="formStockActual">
+            <label for="">Stock Vendido</label>
+            <input type="text" id="formStockVendido">
+
+           
+
+        </form>
+        <button onclick="postStock()">Actualizar stock</button>
+    </div>
+
+
+
+
+
+
+
+
+
+
     <!-- <button onclick="cargar();" id="btn_cargar">Cargar</button>
     <div>
         <input type="text" id="IdProducto"
@@ -33,6 +65,12 @@
     <div id ="cargando">
 
     </div> -->
+
+
+
+
+
+
 </body>
 <script>
 
@@ -99,6 +137,24 @@ function cargarProductos(){
         document.getElementById(tablaprod).innerHTML=listaFinal;
     }
 
+    function postStock(){
+        var formidProducto = document.getElementById("formIdProducto").value;
+        var formidSucursal = document.getElementById("formIdSucursal").value;
+        var formstockActual = document.getElementById("formStockActual").value;
+        var formstockVendido = document.getElementById("formStockVendido").value;
+        axios.put('http://localhost:8000/productos/',{
+            idProducto:formidProducto,
+            idSucursal:formidSucursal,
+            stockActual:formstockActual,
+            stockVendido:formstockVendido
+        }) 
+        .then(function (response) {
+        console.log(response);
+        })
+        .catch(function (error) {
+         console.log(error);
+         });
+    }
 
     function cargar(){
         
