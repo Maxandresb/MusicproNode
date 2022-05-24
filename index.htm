@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js" integrity="sha512-odNmoc1XJy5x1TMVMdC7EMs3IVdItLPlCeL5vSUPN2llYKMJ2eByTTAIiiuqLg+GdNr9hF6z81p27DArRFKT7A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="cargarProductos();" id="btn-cargarProductos">Cargar Productos</button>
+    
+   
+    
+    <div id="div_tablaProductos">
+        
+
+    </div>
+    <div id ="cargando">
+
+    </div>
+    <!-- <button onclick="cargar();" id="btn_cargar">Cargar</button>
+    <div>
+        <input type="text" id="IdProducto"
+        required=true
+        placeholder="Ingrese IdProducto" >
+    </div>
+    
+    <div id="div_tabla">
+        
+
+    </div>
+    <div id ="cargando">
+
+    </div> -->
+</body>
+<script>
+
+function cargarProductos(){
+        
+        document.getElementById("cargando").innerHTML="Cargando...";
+        axios.get ('http://127.0.0.1:4000/api/productos/')
+        .then(response => {
+            dibujarTablaProductos(response.data);
+            document.getElementById("cargando").innerHTML="";
+        })
+        .catch(error => {
+            alert(error);
+        })
+    }
+
+    function dibujarTablaProductos(data){
+
+        document.getElementById("div_tablaProductos").innerHTML="";
+        var lista1 ="<ul>";
+        var li="";
+        for(i=0;i<data.length;i++){
+            li = li+"<li>"+ 
+                 data[i].id+":" +
+                 data[i].nombre +" , "+ ""+ "<button onclick='cargarstock("+data[i].id+");'' id='btn_cargar'>Cargar Stock</button>"+
+                 "<div id='div_tabla"+data[i].id+"'>  </div>"+
+                 "</li>";
+
+           
+        }
+       
+        var lista5 ="</ul>";
+        var listaFinal = lista1+li+lista5;
+        document.getElementById("div_tablaProductos").innerHTML=listaFinal;
+    }
+
+
+    function cargarstock(id){
+        
+       
+        document.getElementById("cargando").innerHTML="Cargando...";
+        axios.get ('http://localhost:4000/api/producto/'+ id)
+        .then(response => {
+            dibujarTablaProducto(response.data,id);
+            document.getElementById("cargando").innerHTML="";
+        })
+        .catch(error => {
+            alert(error);
+        })
+    }
+
+    function dibujarTablaProducto(data,id){
+        var tablaprod= "div_tabla"+id
+        document.getElementById(tablaprod).innerHTML="";
+        var lista1 ="<ol>";
+        var li="";
+        for(i=0;i<data.length;i++){
+            li = li+"<li>"+ 
+                 data[i].sucursal+":" +
+                 data[i].stockActual +"</li>";
+        }
+        var lista3 ="</ol>";
+        var listaFinal = lista1+li+lista3;
+        document.getElementById(tablaprod).innerHTML=listaFinal;
+    }
+
+
+    function cargar(){
+        
+        var idProducto = document.getElementById("IdProducto").value;
+        if (idProducto.length==0){
+            alert("Debe ingresar el producto");
+            return false;
+        }
+        document.getElementById("cargando").innerHTML="Cargando...";
+        axios.get ('http://127.0.0.1:8000/productos/'+ idProducto)
+        .then(response => {
+            dibujarTabla(response.data);
+            document.getElementById("cargando").innerHTML="";
+        })
+        .catch(error => {
+            alert(error);
+        })
+    }
+
+    function dibujarTabla(data){
+
+        document.getElementById("div_tabla").innerHTML="";
+        var lista1 ="<ol>";
+        var li="";
+        for(i=0;i<data.length;i++){
+            li = li+"<li>"+ 
+                 data[i].Sucursal+":" +
+                 data[i].Stock +"</li>";
+        }
+        var lista3 ="</ol>";
+        var listaFinal = lista1+li+lista3;
+        document.getElementById("div_tabla").innerHTML=listaFinal;
+    }
+
+
+</script>
+</html>

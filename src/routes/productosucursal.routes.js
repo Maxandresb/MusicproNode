@@ -3,6 +3,7 @@ import { method as prodsucController } from "../controllers/productosucursal.con
 const router=Router();
 
 router.get("/producto",prodsucController.getStocks);
+router.get("/producto/:id",prodsucController.getStock);
 
 
 export default router
